@@ -5,24 +5,30 @@ const passwordErrorElem = document.querySelector('.error-text__password');
 
 const isRequired = (value) => (value ? undefined : 'Required');
 const isEmail = (value) => (value.includes('@') ? undefined : 'Should be an email');
-const validatorsByField = {
+/*const validatorsByField = {
   email: [isRequired, isEmail],
   password: [isRequired],
-};
-const validate = (fieldName, value) => {
+};*/
+/*const validate = (fieldName, value) => {
   const validators = validatorsByField[fieldName];
   return validators
     .map((validator) => validator(value))
     .filter((errorText) => errorText)
     .join(', ');
-};
+};*/
 const onEmailChange = (event) => {
-  const errorText = validate('email', event.target.value);
+  const errorText = [isRequired, isEmail]
+    .map((validator) => validator(event.target.value))
+    .filter((errorText) => errorText)
+    .join(', ');
   emailErrorElem.textContent = errorText;
 };
 
 const onPasswordChange = (event) => {
-  const errorText = validate('password', event.target.value);
+  const errorText = [isRequired]
+    .map((validator) => validator(event.target.value))
+    .filter((errorText) => errorText)
+    .join(', ');
   passwordErrorElem.textContent = errorText;
 };
 
